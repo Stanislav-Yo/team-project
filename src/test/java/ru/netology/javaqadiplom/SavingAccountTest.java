@@ -27,7 +27,9 @@ public class SavingAccountTest {
                 -5
         );
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> account.add(3_000));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.add(3_000);
+        });
     }
 
     @Test
@@ -39,7 +41,9 @@ public class SavingAccountTest {
                 5
         );
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> account.add(3_000));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.add(3_000);
+        });
     }
 
     @Test
@@ -50,6 +54,9 @@ public class SavingAccountTest {
                 10_000,
                 5
         );
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.add(3_000);
+        });
     }
         @Test
         public void testExceptionInitialBalanceLessThanMinBalance() {
@@ -60,7 +67,9 @@ public class SavingAccountTest {
                     5
             );
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> account.add(3_000));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.add(3_000);
+        });
     }
 
     @Test
