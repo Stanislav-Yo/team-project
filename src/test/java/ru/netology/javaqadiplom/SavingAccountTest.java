@@ -4,8 +4,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
+//    @Test
+//    public void testMinBalanceIsNegative() {
+//        SavingAccount account = new SavingAccount(
+//                2_000,
+//                -1_000,
+//                10_000,
+//                5
+//        );
+//        int expected =-1_000;
+//        int actual = account.minBalance;
+//        Assertions.assertEquals(expected, actual);
+//
+//    }
+
     @Test
     public void testMinBalanceIsNegative() {
+        int initialBalance = 2_000;
+        int minBalance = -1_000;
+        int maxBalance = 10_000;
+        int rate = 5;
         SavingAccount account = new SavingAccount(
                 2_000,
                 -1_000,
@@ -27,11 +45,27 @@ public class SavingAccountTest {
                 -5
         );
 
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        new SavingAccount(initialBalance, minBalance, maxBalance, rate);
+    });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             account.add(3_000);
         });
     }
 
+//    @Test
+//    public void testExceptionRateIsNegative() {
+//        SavingAccount account = new SavingAccount(
+//                2_000,
+//                1_000,
+//                10_000,
+//                -5
+//        );
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            account.add(3_000);
+//        });
+//    }
     @Test
     public void testExceptionMinBalanceMoreThanMaxBalance() {
         SavingAccount account = new SavingAccount(
@@ -41,11 +75,49 @@ public class SavingAccountTest {
                 5
         );
 
+//    @Test
+//    public void testExceptionMinBalanceMoreThanMaxBalance() {
+//        SavingAccount account = new SavingAccount(
+//                2_000,
+//                11_000,
+//                10_000,
+//                5
+//        );
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            account.add(3_000);
+//        });
+//    }
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             account.add(3_000);
         });
     }
 
+//    @Test
+//    public void testExceptionInitialBalanceMoreThanMaxBalance() {
+//        SavingAccount account = new SavingAccount(
+//                11_000,
+//                1_000,
+//                10_000,
+//                5
+//        );
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            account.add(3_000);
+//        });
+//    }
+//        @Test
+//        public void testExceptionInitialBalanceLessThanMinBalance() {
+//            SavingAccount account = new SavingAccount(
+//                    500,
+//                    1_000,
+//                    10_000,
+//                    5
+//            );
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            account.add(3_000);
+//        });
+//    }
     @Test
     public void testExceptionInitialBalanceMoreThanMaxBalance() {
         SavingAccount account = new SavingAccount(
@@ -114,6 +186,20 @@ public class SavingAccountTest {
         Assertions.assertEquals(expected, actual);
     }
 
+//    @Test
+//    public void testPayMoreThanLimitCheckingBalance() {
+//        SavingAccount account = new SavingAccount(
+//                2_000,
+//                1_000,
+//                10_000,
+//                5
+//        );
+//        account.pay(2500);
+//        int actual = account.balance;
+//        int expected = -500;
+//        Assertions.assertEquals(expected, actual);
+//    }
+
     @Test
     public void testPayMoreThanLimitCheckingBalance() {
         SavingAccount account = new SavingAccount(
@@ -122,12 +208,16 @@ public class SavingAccountTest {
                 10_000,
                 5
         );
+        int amount = 2_500;
+        boolean expected = false;
+
+        Assertions.assertEquals(expected,  account.pay(amount));
+
         account.pay(2500);
         int actual = account.balance;
         int expected = -500;
         Assertions.assertEquals(expected, actual);
     }
-
 
     @Test
     public void testPayMoreThanLimit() {
