@@ -61,24 +61,12 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldAllowNegativeInitialBalanceWithinCreditLimit() {
-
-        int initialBalance = -200;
-        int creditLimit = 5_000;
-        int rate = 15;
-
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
-
-        int expectedBalance = -200;
-        int actualBalance = account.getBalance();
-
-        Assertions.assertEquals(expectedBalance, actualBalance);
-    }
-
-    @Test
     public void shouldPayIfAmountIsPositiveAndWithinLimit() {
 
-        CreditAccount account = new CreditAccount(1_000, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15);
         int amount = 2_000;
 
         boolean result = account.pay(amount);
@@ -94,9 +82,11 @@ public class CreditAccountTest {
     @Test
     public void shouldNotPayIfAmountExceedsCreditLimit() {
 
-        CreditAccount account = new CreditAccount(1_000, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15);
         int amount = 7_000;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = false;
@@ -110,9 +100,11 @@ public class CreditAccountTest {
     @Test
     public void shouldNotPayIfAmountIsNegative() {
 
-        CreditAccount account = new CreditAccount(1_000, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15);
         int amount = -2_000;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = false;
@@ -126,9 +118,11 @@ public class CreditAccountTest {
     @Test
     public void shouldNotPayIfAmountIsZero() {
 
-        CreditAccount account = new CreditAccount(1_000, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15);
         int amount = 0;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = false;
@@ -142,9 +136,11 @@ public class CreditAccountTest {
     @Test
     public void shouldPayUpToCreditLimit() {
 
-        CreditAccount account = new CreditAccount(0, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
         int amount = 5_000;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = true;
@@ -158,25 +154,45 @@ public class CreditAccountTest {
     @Test
     public void shouldPayUpIfAmountIsLessThanCreditLimitByOne() {
 
-        CreditAccount account = new CreditAccount(0, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
         int amount = 4_999;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = true;
         int expectedBalance = -4_999;
         int actualBalance = account.getBalance();
 
-        // Сравнение
+        Assertions.assertEquals(expectedResult, result);
+        Assertions.assertEquals(expectedBalance, actualBalance);
+    }
+
+    @Test
+    public void shouldPayIfAmountEqualsCreditLimit() {
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
+        int amount = 5_000;
+        boolean result = account.pay(amount);
+
+        boolean expectedResult = true;
+        int expectedBalance = -5_000;
+        int actualBalance = account.getBalance();
+
         Assertions.assertEquals(expectedResult, result);
         Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
     public void shouldNotPayIfAmountExceedsCreditLimitByOne() {
-        CreditAccount account = new CreditAccount(0, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
         int amount = 5_001;
-
         boolean result = account.pay(amount);
 
         boolean expectedResult = false;
@@ -188,14 +204,30 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldAddToPositiveBalance() {
+    public void shouldPayIfAmountDoesNotExceedsCreditLimit() {
         CreditAccount account = new CreditAccount(
                 0,
+                1_000,
+                15);
+        int amount = 200;
+        boolean result = account.pay(amount);
+
+        boolean expectedResult = true;
+        int expectedBalance = -200;
+        int actualBalance = account.getBalance();
+
+        Assertions.assertEquals(expectedResult, result);
+        Assertions.assertEquals(expectedBalance, actualBalance);
+    }
+
+    @Test
+    public void shouldAddToPositiveBalance() {
+        CreditAccount account = new CreditAccount(
+                1000,
                 5_000,
                 15
         );
-
-        account.add(3_000);
+        account.add(2_000);
 
         Assertions.assertEquals(3_000, account.getBalance());
     }
@@ -207,7 +239,6 @@ public class CreditAccountTest {
                 5_000,
                 15
         );
-
         boolean result = account.add(-2_000);
 
         Assertions.assertFalse(result);
@@ -221,7 +252,6 @@ public class CreditAccountTest {
                 5_000,
                 15
         );
-
         boolean result = account.add(0);
 
         Assertions.assertFalse(result);
@@ -229,26 +259,16 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldAddToNegativeBalanceAtCreditLimit() {
-        CreditAccount account = new CreditAccount(
-                -5_000,
-                5_000,
-                15
-        );
-
-        boolean result = account.add(1_000);
-
-        Assertions.assertTrue(result);
-        Assertions.assertEquals(-4_000, account.getBalance());
-    }
-
-    @Test
     public void shouldCalculateInterestForNegativeBalance() {
 
-        CreditAccount account = new CreditAccount(-200, 5_000, 15);
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
+        account.pay(199);
 
         int result = account.yearChange();
-        int expectedResult = -30;
+        int expectedResult = -29;
 
         Assertions.assertEquals(expectedResult, result);
     }
@@ -256,8 +276,10 @@ public class CreditAccountTest {
     @Test
     public void shouldReturnZeroForPositiveBalance() {
 
-        CreditAccount account = new CreditAccount(200, 5_000, 15);
-
+        CreditAccount account = new CreditAccount(
+                200,
+                5_000,
+                15);
         int result = account.yearChange();
         int expectedResult = 0;
 
@@ -267,8 +289,10 @@ public class CreditAccountTest {
     @Test
     public void shouldReturnZeroForZeroBalance() {
 
-        CreditAccount account = new CreditAccount(0, 5_000, 15);
-
+        CreditAccount account = new CreditAccount(
+                0,
+                5_000,
+                15);
         int result = account.yearChange();
         int expectedResult = 0;
 
