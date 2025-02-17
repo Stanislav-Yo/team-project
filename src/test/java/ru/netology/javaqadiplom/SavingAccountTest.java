@@ -107,20 +107,6 @@ public class SavingAccountTest {
         Assertions.assertEquals(expected, actual);
     }
 
-//    @Test
-//    public void testPayMoreThanLimitCheckingBalance() {
-//        SavingAccount account = new SavingAccount(
-//                2_000,
-//                1_000,
-//                10_000,
-//                5
-//        );
-//        account.pay(2500);
-//        int actual = account.balance;
-//        int expected = -500;
-//        Assertions.assertEquals(expected, actual);
-//    }
-
     @Test
     public void testPayMoreThanLimitCheckingBalance() {
         SavingAccount account = new SavingAccount(
