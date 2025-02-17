@@ -12,6 +12,7 @@ public class CreditAccount extends Account {
      * Создаёт новый объект кредитного счёта с заданными параметрами.
      * Если параметры некорректны (кредитный лимит отрицательный и так далее), то
      * должно выкидываться исключения вида IllegalArgumentException.
+     *
      * @param initialBalance - неотрицательное число, начальный баланс для счёта
      * @param creditLimit    - неотрицательное число, максимальная сумма которую можно задолжать банку
      * @param rate           - неотрицательное число, ставка кредитования для расчёта долга за отрицательный баланс
@@ -56,9 +57,9 @@ public class CreditAccount extends Account {
         if (balance >= -creditLimit) {
             return true;
         } else {
-                balance = balance + amount;
-                return false;
-            }
+            balance = balance + amount;
+            return false;
+        }
 
     }
 
@@ -94,10 +95,10 @@ public class CreditAccount extends Account {
      */
     @Override
     public int yearChange() {
-        if (balance <0) {
-        return balance / 100 * rate;
-    } else {
-        return 0;
+        if (balance < 0) {
+            return balance * rate / 100;
+        } else {
+            return 0;
         }
     }
 
