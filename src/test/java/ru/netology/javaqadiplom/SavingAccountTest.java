@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
 
-
     @Test
     public void testMinBalanceIsNegative() {
         int initialBalance = 2_000;
@@ -163,3 +162,4 @@ public class SavingAccountTest {
     }
 
 }
+
